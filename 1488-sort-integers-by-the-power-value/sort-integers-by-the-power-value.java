@@ -1,35 +1,48 @@
 class Solution {
-    public int count(int x){
-        int con = 0;
-        while(x != 1){
-            if(x%2==0){
-                x = x/2;
-                con++;
-            }
-            else{
-                x = 3*x+1;
-                con++;
-            }
-        }
-        return con;
-    }
+    
+    HashMap<Integer, Integer> dp = new HashMap<>();
     public int getKth(int lo, int hi, int k) {
-        HashMap<Integer,Integer> map = new HashMap<>();
         
-        for(int i = lo;i<=hi;i++){
-            map.put(i,count(i));
-        }
-        
-        List<Integer> al = new ArrayList<>(map.keySet());
-        Collections.sort(al, (a,b) -> {
-			
-            if(map.get(a) != map.get(b)){
-                return map.get(a) - map.get(b);
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) ->{
+            int steps1 = 0, steps2 = 0;
+            if(!dp.containsKey(a)){
+                dp.put(a, steps(a));
             }
-			
-            return a - b;
+            steps1 = dp.get(a);
+            if(!dp.containsKey(b)){
+                dp.put(b, steps(b));
+            }
+            steps2 = dp.get(b);
+            
+            if(steps1 == steps2){
+                return b- a;
+            }else{
+                return steps2 - steps1;
+            }
         });
         
-        return al.get(k-1);
+        for(int i = lo ; i <= hi ; i++){
+            pq.add(i);
+            if(pq.size() > k){
+                pq.poll();
+            }
+        }
+        
+        return pq.peek();
+    }
+    
+    public int steps(int x){
+        int steps = 0;
+        
+        while(x != 1){
+            if(x % 2 == 0){
+                x/=2;
+            }else{
+                x = 3 * x + 1;
+            }
+            steps++;
+        }
+        
+        return steps;
     }
 }
