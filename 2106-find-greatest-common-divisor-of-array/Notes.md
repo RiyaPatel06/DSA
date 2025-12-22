@@ -1,0 +1,1 @@
+<h2>find-greatest-common-divisor-of-array Notes</h2><hr>[ Time taken: 7 d 11 hrs 53 m 3 s ]
