@@ -28,7 +28,7 @@ class Solution {
         String lcs=LCS(a,b);
         int i=0,j=0,k=0;
         String scs="";
-        while(i<a.length() && j<b.length() && k<lcs.length()){
+        while(k<lcs.length()){
             while(a.charAt(i)!=lcs.charAt(k)){
                 scs += a.charAt(i);
                 i++;
