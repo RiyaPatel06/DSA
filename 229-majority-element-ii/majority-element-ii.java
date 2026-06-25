@@ -1,38 +1,20 @@
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
-        Integer cand1 = null, cand2 = null;
-        int count1 = 0, count2 = 0;
-
-        
-        for (int num : nums) {
-            if (cand1 != null && num == cand1) {
-                count1++;
-            } else if (cand2 != null && num == cand2) {
-                count2++;
-            } else if (count1 == 0) {
-                cand1 = num;
-                count1 = 1;
-            } else if (count2 == 0) {
-                cand2 = num;
-                count2 = 1;
-            } else {
-                count1--;
-                count2--;
-            }
-        }
-
-        
+       int n = nums.length;
         List<Integer> result = new ArrayList<>();
-        int n = nums.length;
+        Map<Integer, Integer> mpp = new HashMap<>();
+        int mini = n / 3 + 1;
 
-        int freq1 = 0, freq2 = 0;
-        for (int num : nums) {
-            if (cand1 != null && num == cand1) freq1++;
-            if (cand2 != null && num == cand2) freq2++;
+        for (int i = 0; i < n; i++) {
+            mpp.put(nums[i], mpp.getOrDefault(nums[i], 0) + 1);
+
+            // Add to result only when the count just reaches mini
+            if (mpp.get(nums[i]) == mini) {
+                result.add(nums[i]);
+            }
+
+            if (result.size() == 2) break;
         }
-
-        if (freq1 > n / 3) result.add(cand1);
-        if (cand2 != null && cand2 != cand1 && freq2 > n / 3) result.add(cand2);
 
         return result;
     }
