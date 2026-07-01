@@ -10,9 +10,9 @@ class Solution {
             int mid = l + (h - l) / 2;
             if (nums[mid] >= 0) {
                 neg = mid;
-                h = mid - 1;
+                h=mid-1;
             }
-            else l = mid + 1;
+            else l=mid+1;
         }
 
         l = 0;
