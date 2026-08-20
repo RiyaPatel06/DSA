@@ -1,23 +1,47 @@
 class Solution {
-    int rows;
-    int cols;
-    void dfs(int row,int col,int newColor,int curColor,int image[][]){
-        //out of bound cases,vis,color not same
-        if(row<0 || row>=rows || col<0 || col>=cols || image[row][col]!=curColor || image[row][col]==newColor){
-            return;
-        }
-        image[row][col]=newColor;
-        //visit neighbour [up,right,down,left]
-        int adjList[][]={{row-1,col},{row,col+1},{row+1,col},{row,col-1}};
-        for(int neighbour[]:adjList){
-            dfs(neighbour[0],neighbour[1],newColor,curColor,image);
+
+    public static void dfs(int row,int col,int[][] image,int originalColor,int newColor){
+        int n = image.length;
+        int m = image[0].length;
+
+        // Change current cell's color
+        image[row][col] = newColor;
+
+        // Four directions
+        int[] dRow = {-1, 1, 0, 0};
+        int[] dCol = {0, 0, -1, 1};
+
+        // Check all four neighbours
+        for (int i = 0; i < 4; i++) {
+
+            int newRow = row + dRow[i];
+            int newCol = col + dCol[i];
+
+            // Check boundaries
+            if (newRow >= 0 && newRow < n &&
+                newCol >= 0 && newCol < m) {
+
+                // Check same original color
+                if (image[newRow][newCol] == originalColor) {
+
+                    dfs(newRow,newCol,image,originalColor,newColor);
+                }
+            }
         }
     }
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        rows=image.length;
-        cols=image[0].length;
-        dfs(sr,sc,color,image[sr][sc],image);
+
+    public static int[][] floodFill(int[][] image,int sr,int sc,int color){
+        int originalColor = image[sr][sc];
+
+        // Important edge case
+        if (originalColor == color) {
+            return image;
+        }
+
+        dfs(sr,sc,image,originalColor,color);
+
         return image;
-        
     }
+
+    
 }
