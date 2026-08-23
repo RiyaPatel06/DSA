@@ -1,42 +1,65 @@
 class Solution {
-    public int[] findOrder(int n, int[][] pre) {
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <=n; i++) {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+
+        // 1. Create adjacency list
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for (int i = 0; i < numCourses; i++) {
             adj.add(new ArrayList<>());
         }
-        int[] indegree=new int[n];
-        //boolean[] vis=new boolean[n];
-        for(int i=0;i<pre.length;i++){
-            int a=pre[i][0],b=pre[i][1]; //b->a edge
-            adj.get(b).add(a);
-            indegree[a]++;
+
+        // 2. Build graph
+        for (int[] prerequisite : prerequisites) {
+
+            int course = prerequisite[0];
+            int pre = prerequisite[1];
+
+            adj.get(pre).add(course);
         }
-        //kahn's algo
-        Queue<Integer> q=new LinkedList<>();
-        List<Integer> ans=new ArrayList<>();
-        for(int i=0;i<n;i++){
-            if(indegree[i]==0) {
+
+        // 3. Calculate indegree
+        int[] indegree = new int[numCourses];
+
+        for (int u = 0; u < numCourses; u++) {
+            for (int v : adj.get(u)) {
+                indegree[v]++;
+            }
+        }
+
+        // 4. Put indegree 0 nodes into queue
+        Queue<Integer> q = new LinkedList<>();
+
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
                 q.add(i);
-               
-            }    
+            }
         }
-        while(q.size()>0){
-            int front=q.remove();
-            ans.add(front);
-            for(int ele:adj.get(front)){
-                indegree[ele]--;
-                if(indegree[ele]==0){
-                    q.add(ele);
+
+        // 5. BFS
+        int[] ans = new int[numCourses];
+        int index = 0;
+
+        while (!q.isEmpty()) {
+
+            int node = q.remove();
+
+            ans[index++] = node;
+
+            for (int neighbor : adj.get(node)) {
+
+                indegree[neighbor]--;
+
+                if (indegree[neighbor] == 0) {
+                    q.add(neighbor);
                 }
             }
         }
-        int[] ans2=new int[ans.size()];
-        for(int i=0;i<ans.size();i++){
-            ans2[i]=ans.get(i);
+
+        // 6. Cycle detection
+        if (index != numCourses) {
+            return new int[0];
         }
-        if(ans.size()!=n) return new int[0];
-        return ans2;
-        
-        
+
+        return ans;
     }
 }
