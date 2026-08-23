@@ -1,38 +1,41 @@
 class Solution {
     public boolean canFinish(int n, int[][] pre) {
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i <=n; i++) {
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<n;i++){
             adj.add(new ArrayList<>());
         }
+        for(int[] edge:pre){
+            int u=edge[0];
+            int v=edge[1];
+            adj.get(u).add(v);
+        }
+        //calculate indegree
         int[] indegree=new int[n];
-        //boolean[] vis=new boolean[n];
-        for(int i=0;i<pre.length;i++){
-            int a=pre[i][0],b=pre[i][1]; //b->a edge
-            adj.get(b).add(a);
-            indegree[a]++;
+        for(int u=0;u<n;u++){
+            for(int v:adj.get(u)){
+                indegree[v]++;
+            }
         }
-        //kahn's algo
         Queue<Integer> q=new LinkedList<>();
-        List<Integer> ans=new ArrayList<>();
         for(int i=0;i<n;i++){
-            if(indegree[i]==0) {
+            if(indegree[i]==0){
                 q.add(i);
-               // vis[i]=true;
-            }    
+            }
         }
-        while(q.size()>0){
-            int front=q.remove();
-            ans.add(front);
-            for(int ele:adj.get(front)){
-                indegree[ele]--;
-                if(indegree[ele]==0){
-                    q.add(ele);
-                   // vis[ele]=true;
+        List<Integer> ans=new ArrayList<>();
+        while(!q.isEmpty()){
+            int node=q.remove();
+            ans.add(node);
+            for(int neigh:adj.get(node)){
+                indegree[neigh]--;
+                if(indegree[neigh]==0){
+                    q.add(neigh);
                 }
             }
         }
         if(ans.size()==n) return true;
         else return false;
+        
 
     }
 
