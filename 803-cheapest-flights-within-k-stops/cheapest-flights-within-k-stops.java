@@ -1,6 +1,6 @@
 class Solution {
-    public int findCheapestPrice(int n, int[][] flights,
-                                 int src, int dst, int k) {
+    public int findCheapestPrice(int n, int[][] flights,int src, int dst, int k) {
+                                 
 
         ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
 
@@ -24,10 +24,7 @@ class Solution {
         }
 
         // {cost, node, flightsUsed}
-        PriorityQueue<int[]> pq =
-            new PriorityQueue<>((a, b) ->
-                Integer.compare(a[0], b[0]));
-
+        PriorityQueue<int[]> pq =new PriorityQueue<>((a, b) ->Integer.compare(a[0], b[0]));
         dist[src][0] = 0;
 
         pq.offer(new int[]{0, src, 0});
@@ -61,11 +58,9 @@ class Solution {
 
                     dist[next][newFlights] = newCost;
 
-                    pq.offer(new int[]{
-                        newCost,
-                        next,
-                        newFlights
-                    });
+                    pq.offer(new int[]{newCost,next,newFlights});
+                      
+        
                 }
             }
         }
