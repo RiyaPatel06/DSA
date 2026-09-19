@@ -24,8 +24,8 @@ class Solution {
         count1=0;
         count2=0;
         for(int i=0;i<n;i++){
-            if(nums[i]==cand1) count1++;
-            if(nums[i]==cand2) count2++;
+           if(nums[i]==cand1) count1++;
+           if(nums[i]==cand2) count2++;
         } 
         int mini=n/3+1;
         List<Integer> res=new ArrayList<>();
