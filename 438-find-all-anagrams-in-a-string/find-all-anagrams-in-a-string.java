@@ -4,7 +4,7 @@ class Solution {
 
     int[] pCount = new int[26];
     int[] sCount = new int[26];
-    List<Integer> result = new java.util.ArrayList<>();
+    List<Integer> result = new ArrayList<>();
 
     // Count frequency of characters in p
     for (char c : p.toCharArray()) {
