@@ -1,32 +1,46 @@
 class Solution {
-    int max=0,start=0,end=0;
-    public boolean isPalindrome(String s,int i,int j){
-        while(i<j){
-            char c1=s.charAt(i);
-            char c2=s.charAt(j);
-            if(c1!=c2) 
-                return false;
-            i++;
-            j--; 
-            
-        }
-        return true;
-    }
-    public String longestPalindrome(String s) {
-        int n=s.length();
-        for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
-                if(isPalindrome(s,i,j)==true){
-                    if((j-i+1)>max){
-                        max=j-i+1;
-                        start=i;
-                        end=j;
-                    }
+    public String longestPalindrome(String str) {
+        if (str.length() <= 1)
+           return str;
 
-                }
-            }
+       String LPS = "";
+
+       for (int i = 1; i < str.length(); i++) {
+
+         // Consider odd length
+         int low = i;
+         int high = i;
+         while(str.charAt(low) == str.charAt(high)) {
+          low--;
+          high++;
+
+          if (low == -1 || high == str.length())
+          break;
+         }
+
+         String palindrome = str.substring(low+1, high);
+          if (palindrome.length() > LPS.length()) {
+          LPS = palindrome;
+          }
+
+          // Consider even length
+         low = i-1;
+         high = i;
+         while(str.charAt(low) == str.charAt(high)) {
+          low--;
+          high++;
+
+          if (low == -1 || high == str.length())
+            break;
+         }
+
+         palindrome = str.substring(low+1, high);
+          if (palindrome.length() > LPS.length()) {
+           LPS = palindrome;
+          }
         }
-        return s.substring(start,end+1);
+
+        return LPS;
         
     }
 }
